@@ -4,6 +4,8 @@ import os
 import subprocess
 import shutil
 #shutil.rmtree('/home/me/test') 
+parent = os.getcwd()
+os.chdir(parent)
 class uploadHandler(tornado.web.RequestHandler):
     def post(self):
        
@@ -19,15 +21,20 @@ class uploadHandler(tornado.web.RequestHandler):
       
     def get(self):
         self.render("index.html")
-        parent = os.getcwd()
-        os.chdir(parent)
         try:
-            shutil.rmtree(parent+"/"+"audio")
-            shutil.rmtree(parent+"/"+"upload")  
+            shutil.rmtree(parent+'/upload')
+            shutil.rmtree(parent+'/audio')
+            os.mkdir('upload')
+            os.mkdir('audio')  
         except FileExistsError:
-             print("Already exist")   
+            print("Already exist")
+          
 
-  
+try:
+    os.mkdir('upload')
+    os.mkdir('audio')  
+except FileExistsError:
+    print("Already exist")     
 if (__name__ == "__main__"):
     parent = os.getcwd()
     os.chdir(parent)
